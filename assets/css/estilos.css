@@ -1,0 +1,472 @@
+@import "tailwindcss";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*:focus-visible {
+    outline: 3px solid #C990CC;
+    outline-offset: 2px;
+}
+
+.H2 {
+    TEXT-ALIGN: CENTER;
+    MARGIN-TOP: 20PX;
+    MARGIN-BOTTOM: 20PX;
+    color: #C990CC;
+}
+
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    z-index: 10000;
+    padding: 12px 24px;
+    background: #C990CC;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 0.1s;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #D1D1D6;
+}
+
+/* ========== BARRA DE NAVEGACIÓN ========== */
+.navbar-custom {
+    background-color: #C990CC;
+    padding: 60px 0 40px;
+    transition: all 0.3s ease;
+}
+
+.navbar-custom.scrolled {
+    padding: 15px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: logoSlide 5s ease-in-out infinite;
+}
+
+@keyframes logoSlide {
+
+    0%,
+    15% {
+        transform: translateX(0);
+    }
+
+    35%,
+    50% {
+        transform: translateX(120px);
+    }
+
+    65%,
+    80% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.logo-img {
+    width: 221px;
+    height: auto;
+    margin-bottom: 0px;
+}
+
+.logo-text {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-top: 0px;
+}
+
+.navbar-custom .nav-link {
+    color: #000000 !important;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 8px 16px !important;
+    transition: color 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #FFFFFF !important;
+}
+
+/* ========== MENÚ HAMBURGUESA ANIMADO ========== */
+.navbar-toggler {
+    border-color: rgba(0, 0, 0, 0.3);
+    border-width: 2px;
+    padding: 8px 10px;
+}
+
+.hamburger-lines {
+    width: 24px;
+    height: 18px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger-lines span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: #000;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.navbar-toggler[aria-expanded="true"] .hamburger-lines span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.navbar-toggler[aria-expanded="true"] .hamburger-lines span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-toggler[aria-expanded="true"] .hamburger-lines span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ========== PORTADA ========== */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.hero-content h1 {
+    font-size: 64px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+    font-size: 24px;
+    font-weight: 400;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* ========== GALERÍA ========== */
+.gallery-section {
+    background-color: #D1D1D6;
+    padding: 0;
+    position: relative;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    background: rgba(201, 144, 204, 0.8);
+}
+
+/* ========== SERVICIOS ========== */
+.services-section {
+    padding: 80px 0;
+    background-color: #FFFFFF;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: #C990CC;
+    margin-bottom: 60px;
+}
+
+.service-card {
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 12px;
+    background: #FFFFFF;
+    border: 2px solid #D1D1D6;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(201, 144, 204, 0.3);
+    border-color: #C990CC;
+}
+
+.service-icon {
+    margin-bottom: 20px;
+}
+
+.service-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 12px;
+}
+
+.service-card p {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+/* ========== PIE DE PÁGINA ========== */
+.footer {
+    background-color: #C990CC;
+    padding: 80px 0;
+    color: #000000;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 2;
+}
+
+/* ========== ANIMACIONES ========== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========== DISEÑO ADAPTATIVO ========== */
+@media (max-width: 992px) {
+    .gallery-item {
+        height: 300px !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: 350px;
+    }
+
+    .hero-content h1 {
+        font-size: 36px;
+    }
+
+    .hero-content p {
+        font-size: 18px;
+    }
+
+    .gallery-item {
+        height: 250px !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+    }
+
+    .navbar-custom {
+        padding: 20px 0;
+    }
+
+    .navbar-custom .nav-link {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .services-section {
+        padding: 50px 0;
+    }
+
+    .section-title {
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+
+    .footer {
+        padding: 50px 0;
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-item {
+        height: 200px !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+
+
+    }
+
+    40% {
+        transform: translateY(-30px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.botar {
+    animation: bounce 0.8s ease infinite;
+
+}
+
+.trans-card {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.3s ease;
+}
+
+.trans-card:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+.nav-mobile {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    width: max-content;
+}
+
+.nav-mobile li {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.nav-mobile li:last-child {
+    border-bottom: none;
+}
+
+.nav-mobile.visible {
+    display: block;
+}
+
+.nav-mobile a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .botar {
+        animation: none;
+    }
+
+    .navbar-brand {
+        animation: none;
+    }
+
+    .fade-in {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .trans-card {
+        transition: none;
+    }
+
+    .trans-card:hover {
+        transform: none;
+    }
+
+    .service-card:hover {
+        transform: none;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+.vertical-text {
+    writing-mode: vertical-rl;
+    position: absolute;
+    background: black;
+    height: 100%;
+    inset-inline: 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: 720;
+    text-align: center;
+    z-index: 1;
+}
+
+@media (max-width: 992px) {
+    .vertical-text {
+        display: none;
+    }
+}
