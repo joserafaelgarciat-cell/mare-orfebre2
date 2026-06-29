@@ -1,3 +1,135 @@
-RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# =============================================================================
+# .htaccess - Optimización de rendimiento para mare-orfebre
+# =============================================================================
+
+# -----------------------------------------------------------------------
+# Activación de la compresión (mod_deflate)
+# -----------------------------------------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml application/rss+xml
+    AddOutputFilterByType DEFLATE image/svg+xml application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE font/ttf font/otf font/eot font/woff font/woff2
+
+    # Elimina cabeceras innecesarias para navegadores antiguos
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+    # No comprimir imágenes ya comprimidas
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|webp)$ no-gzip dont-vary
+</IfModule>
+
+# -----------------------------------------------------------------------
+# Caché del navegador (mod_expires)
+# -----------------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+
+    # HTML y XML: 0 segundos (siempre fresco)
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/xml "access plus 0 seconds"
+
+    # CSS y JS: 1 año (versión por querystring)
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+
+    # Fuentes: 1 año
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+
+    # Imágenes: 1 año
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # Documentos PDF: 1 mes
+    ExpiresByType application/pdf "access plus 1 month"
+</IfModule>
+
+# -----------------------------------------------------------------------
+# Cache-Control (mod_headers)
+# -----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Cache público para estáticos con versionado por querystring
+    <FilesMatch "\.(css|js|gif|jpe?g|png|webp|svg|ico|ttf|otf|woff2?|eot)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # HTML: evitar caché para contenido siempre actual
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+
+    # Desactivar ETags para reducir cabeceras
+    Header unset ETag
+</IfModule>
+
+# -----------------------------------------------------------------------
+# Tipos MIME correctos
+# -----------------------------------------------------------------------
+<IfModule mod_mime.c>
+    # WebP
+    AddType image/webp .webp
+
+    # Fuentes
+    AddType font/ttf .ttf
+    AddType font/otf .otf
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType application/vnd.ms-fontobject .eot
+
+    # SVG comprimido
+    AddType image/svg+xml .svg
+    AddEncoding gzip .svgz
+
+    # JavaScript moderno (ES modules)
+    AddType application/javascript .js
+    AddType text/css .css
+</IfModule>
+
+# -----------------------------------------------------------------------
+# Cabeceras de seguridad básicas
+# -----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Protección contra MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Prevenir clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# -----------------------------------------------------------------------
+# Redirección a HTTPS (descomentar cuando tengas SSL activo)
+# -----------------------------------------------------------------------
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+# </IfModule>
+
+# -----------------------------------------------------------------------
+# Negociación de contenido para WebP (si mod_rewrite está activo)
+# -----------------------------------------------------------------------
+# <IfModule mod_rewrite.c>
+#     RewriteCond %{HTTP_ACCEPT} image/webp
+#     RewriteCond %{REQUEST_URI} \.(jpe?g|png)$
+#     RewriteCond %{DOCUMENT_ROOT}/$1.webp -f
+#     RewriteRule ^(.+)\.(jpe?g|png)$ $1.webp [T=image/webp,E=webp:1]
+#
+#     <IfModule mod_headers.c>
+#         Header append Vary Accept env=webp
+#     </IfModule>
+# </IfModule>
